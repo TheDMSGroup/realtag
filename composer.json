@@ -1,0 +1,13 @@
+{
+    "name": "westonwatson/realtag",
+    "description": "A PHP Client for the iLeads RealTag API.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "westonwatson",
+            "email": "westonbradfordwatson@gmail.com"
+        }
+    ],
+    "require": {}
+}
