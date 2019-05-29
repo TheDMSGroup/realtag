@@ -9,5 +9,17 @@
             "email": "westonbradfordwatson@gmail.com"
         }
     ],
-    "require": {}
+    "autoload": {
+        "psr-0": {"": "src/"},
+        "psr-4": {"westonwatson\\realtag\\":  "src/"}
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^8.1",
+    }
 }
