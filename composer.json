@@ -1,0 +1,25 @@
+{
+    "name": "westonwatson/realtag",
+    "description": "A PHP Client for the iLeads RealTag API.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "westonwatson",
+            "email": "westonbradfordwatson@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": {"": "src/"},
+        "psr-4": {"westonwatson\\realtag\\":  "src/"}
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^8.1",
+    }
+}
