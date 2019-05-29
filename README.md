@@ -49,7 +49,6 @@ class RealTagUsage
      */
     public function __construct($devMode = false)
     {
-        require_once('/Users/westonwatson/Documents/realtag/src/RealTag.php');
         $this->devMode = $devMode;
         $this->client  = new RealTag(self::MY_API_TOKEN, $devMode);
     }
