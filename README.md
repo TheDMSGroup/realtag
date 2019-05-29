@@ -9,7 +9,7 @@ A PHP Client for the iLeads RealTag API ([Website](https://www.realtag.com/))
 ![GitHub contributors](https://img.shields.io/github/contributors/westonwatson/realtag.svg)
 ![GitHub issues](https://img.shields.io/github/issues/westonwatson/realtag.svg)
 
-###Example(s)
+### Example(s)
 
 ```
 <?php
