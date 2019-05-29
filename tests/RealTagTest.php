@@ -7,8 +7,6 @@ use PHPUnit\Framework\TestCase;
 use westonwatson\realtag\CurlRequest;
 use westonwatson\realtag\HttpRequest;
 use westonwatson\realtag\RealTag;
-use \Mockery\Adapter\Phpunit\MockeryTestCase;
-use \Mockery as m;
 use stdClass;
 
 /**
@@ -16,7 +14,7 @@ use stdClass;
  *
  * @package westonwatson\realtag
  */
-class RealTagTest extends MockeryTestCase
+class RealTagTest extends TestCase
 {
     const TEST_TOKEN     = 'ThisIsATestTokenString';
 
