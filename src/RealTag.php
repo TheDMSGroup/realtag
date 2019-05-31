@@ -48,7 +48,10 @@ class RealTag
      */
     public function __construct(string $token, $devMode = false, HttpRequest $curl_request = null)
     {
-        require_once __DIR__ . '/../vendor/autoload.php';
+        if (!class_exists(\Composer\Autoload\ClassLoader::class)) {
+            trigger_error("Autoloader not found, manually requiring composer autoloader now...", E_USER_NOTICE);
+            require_once __DIR__ . '/../vendor/autoload.php';
+        }
 
         $this->token    = $token;
         $this->endpoint = $devMode ? self::REALTAG_DEV_ENDPOINT : self::REALTAG_PROD_ENDPOINT;
@@ -87,7 +90,15 @@ class RealTag
 
         $raw_response = $this->ch->execute();
 
-        return $this->decodeResponse($raw_response);
+        $response = $this->decodeResponse($raw_response);
+
+        if (strlen($response->Error) > 0) {
+            trigger_error("RealTag API Error: {$response->Error}", E_USER_WARNING);
+        } elseif (!$response->Success) {
+            trigger_error("Unknown RealTag API Error Encountered", E_USER_WARNING);
+        }
+
+        return $response;
     }
 
     /**
