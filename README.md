@@ -9,6 +9,158 @@ A PHP Client for the iLeads RealTag API ([Website](https://www.realtag.com/))
 ![GitHub contributors](https://img.shields.io/github/contributors/westonwatson/realtag.svg)
 ![GitHub issues](https://img.shields.io/github/issues/westonwatson/realtag.svg)
 
+### Notes
+* If you don't already use an autoloader and don't require the classes manually, the RealTag PHP Client will attempt to use Composer's Autoloader. So, if you're not using this library via Composer, make sure you include both the Client class and the Helper Class manually (`require`, `require_once`).
+* You can request any attribute of the API response, realtag will lookup the requested property in all API Response Sections (ie- Property, EstimatedData, Forclosure, etc).
+* The client library will trigger a PHP `E_USER_NOTICE` if something isn't configured correctly. Or an invalid property attribute is requested.
+* The PHP RealTag Client defaults to Production Mode `$devMode == false`. Make sure to enable `$devMode` if you don't want to hit the production service.
+* If you have any questions of comments, feel free to open a Github Issue, or submit a pull request with your proposed changes. Any/All Help is greatly appreciated! 😃 
+
+### Available Attributes
+
+##### Success
+##### Error
+##### Product
+##### Version
+##### LeadID
+##### Requested
+
+##### OriginalRequest (stdClass)
+> "FullName",
+"AddressLine1",
+"AddressLine2",
+"City",
+"State",
+"Zip",
+"ExternalID",
+>>##### AllFields (stdClass)
+>> "FullName",
+"AddressLine1",
+"City",
+"State",
+"Zip",
+"ExternalID",
+"AVM",
+"ConfidenceScore",
+"HighValue",
+"LowValue",
+"Value",
+
+##### Foreclosure (stdClass)
+> "NODorForeclosure",
+"DefaultAmount",
+"DefaultDate",
+
+##### Property (stdClass)
+> "IsHomeOwner",
+"OwnerName",
+"IsOwnerOccupied",
+"Address",
+"UnitNumber",
+"City",
+"State",
+"Zip",
+"APN",
+"County",
+"CensusTract",
+"FIPSCode",
+"FIPSCensusCombo",
+"PropertyUse",
+"LandUseDescription",
+"CountyUse",
+"StateLandUseDescription",
+"Bathrooms",
+"Bedrooms",
+"BasementSqFt",
+"Fireplaces",
+"CentralCooling",
+"ParkingType",
+"GarageSqFt",
+"GarageTotalCars",
+"LandValue",
+"LotAreaSqFt",
+"Pool",
+"TotalAssesedValueAmount",
+"RoofSurfaceDescription",
+"TotalLivingAreaSqFt",
+"GrossLivingAreaSqFt",
+"TotalAdjustmentLivingSqFt",
+"TotalRooms",
+"TotalStories",
+"YearBuilt",
+"Schooldistrict",
+"Realestatetotaltaxamount",
+"LastSaleDate",
+"LastSalePrice",
+"PricePerSquareFoot",
+"Improvementvalue",
+"Zoning",
+"Taxyear",
+"Totaltaxablevalueamount",
+"PhoneNumber",
+"MailingAddress",
+"MailingCity",
+"MailingState",
+"MailingPostalCode",
+"PlusFourPostalCode",
+"HouseNumber",
+"DirectionPrefix",
+"StreetName",
+"StreetSuffix",
+"DirectionSuffix",
+"ApartmentOrUnit",
+"SiteInfluenceDescription",
+"FloodZoneIdentifier",
+"RoofTypeDescription",
+"FoundationMaterialDescription",
+"ConditionsDescription",
+"ConstructionQualityTypeDescription",
+"OtherPropertyImprovementsDescription",
+"ExteriorWallsIdentifier",
+"ConstructionTypeDescription",
+"ImprovementValueAmount",
+"BasementType",
+"BasementDescription",
+"BasementFinishedAreaSqFt",
+"LenderName",
+"TitleCompanyName",
+"OpenLienAmount",
+"OpenLienCount",
+"LastLoanDate",
+
+##### Liens (array)
+
+> "TransactionNumber",
+"TransactionType",
+"SaleDocumentNumberIdentifier",
+"SaleDeedTypeDescription",
+"SaleDeedTypeDamarCode",
+"SaleRecordingDate",
+"SaleDate",
+"OneSaleTypeDescription",
+"SaleStampAmount",
+"SalesPriceAmount",
+"SaleSellerName",
+"SaleBuyerNames",
+"SaleTitleCompanyName",
+"SaleTransferDocumentNumberIdentifier",
+"SaleOwnerTransferIndicator",
+"CorporateBuyer",
+"Borrower1Names",
+"VestingDescription",
+"LastSaleIndicator",
+"MortgageAmount",
+
+##### EstimatedData (stdClass)
+> "MortgageTerm",
+"MortgageInterestRate",
+"MortgagePayment",
+"MortgageAgeInMonths",
+"MortgageBalance",
+"LTV",
+"Equity",
+
+
 ### Example(s)
 
 ```
@@ -16,11 +168,11 @@ A PHP Client for the iLeads RealTag API ([Website](https://www.realtag.com/))
 
 namespace Example\RealTagImplementation;
 
-use westonwatson\realtag\RealTag;
+use westonwatson\realtag\RealTagHelper;
 
 class RealTagUsage
 {
-    const MY_API_TOKEN = 'ThisTokenProvided/ByYour-iLeadsSalesRep==';
+    const MY_API_TOKEN = 'aNUn3eP7ep26ix/wDFDcZUEuFO5jxGEaL8a4hUW8q5FzoyQ5iCHyzg==';
 
     /**
      * @var bool
@@ -28,14 +180,9 @@ class RealTagUsage
     private $devMode = false;
 
     /**
-     * @var RealTag
+     * @var RealTagHelper
      */
-    private $client;
-
-    /**
-     * @var array
-     */
-    private $lead = [];
+    private $realtag;
 
     /**
      * @var \stdClass
@@ -49,95 +196,36 @@ class RealTagUsage
      */
     public function __construct($devMode = false)
     {
-        $this->devMode = $devMode;
-        $this->client  = new RealTag(self::MY_API_TOKEN, $devMode);
+        $this->realtag = new RealTagHelper(self::MY_API_TOKEN, $devMode);
     }
 
-    /**
-     * @param array $lead
-     *
-     * @throws \Exception
-     */
-    public function setPropertyInfo(array $lead)
+    public function getHomeEquityInfo()
     {
-        $this->lead     = $lead;
-        $this->response = $this->client->call($lead);
-        echo "\nOUTPUT\n";
-        echo print_r($this->response, true);
+        $this->realtag->setProperty([
+            "FullName"     => "Barack Obama",
+            "AddressLine1" => "1600 Pennsylvania Ave., NW",
+            "City"         => "Washington",
+            "State"        => "DC",
+            "Zip"          => "20500",
+            "ExternalID"   => "change20500",
+        ]);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPropertyCounty()
+    public function showRoomCount()
     {
-        return $this->response->Property->County;
+        echo "This property has {$this->realtag->Bedrooms} bedrooms and {$this->realtag->Bedrooms} bathrooms.\n";
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPropertyRoomCount()
+    public function showMortgageTerm()
     {
-        return $this->response->Property->Bedrooms;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPropertyBathCount()
-    {
-        return $this->response->Property->Bathrooms;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPropertyZoningType()
-    {
-        return $this->response->Property->Zoning;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEstimatedMortgageTerm()
-    {
-        return $this->response->EstimatedData->MortgageTerm;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEstimatedMortgagePaymentAmount()
-    {
-        return $this->response->EstimatedData->MortgagePayment;
+        echo "The owner of this property pays an estimated \${$this->realtag->MortgagePayment}, {$this->realtag->MortgageTerm} times a year.\n";
     }
 }
 
 $realtagUsage = new RealTagUsage(true);
-$realtagUsage->setPropertyInfo(
-    [
-        "FullName"     => "Barack Obama",
-        "AddressLine1" => "1600 Pennsylvania Ave., NW",
-        "City"         => "Washington",
-        "State"        => "DC",
-        "Zip"          => "20500",
-        "ExternalID"   => "change20500",
-    ]
-);
-
-$roomCount = $realtagUsage->getPropertyRoomCount();
-$bathCount = $realtagUsage->getPropertyBathCount();
-
-echo "This property has {$roomCount} bedrooms and {$bathCount} bathrooms.\n";
-
-$mortgageAmount = $realtagUsage->getEstimatedMortgagePaymentAmount();
-$mortgageTerm   = $realtagUsage->getEstimatedMortgageTerm();
-
-
-echo "The owner of this property pays an estimated \${$mortgageAmount}, {$mortgageTerm} times a year.\n";
-
+$realtagUsage->getHomeEquityInfo();
+$realtagUsage->showMortgageTerm();
+$realtagUsage->showRoomCount();
 ```
 
 

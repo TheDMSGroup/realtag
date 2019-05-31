@@ -62,7 +62,7 @@ class RealTagHelper
 
     public function getEquityData()
     {
-        return $this->response->EstimatedData;
+        return $this->response->EsitmatedData;
     }
 
     public function getLienCount()
@@ -89,8 +89,6 @@ class RealTagHelper
         }
 
         if ($count++ > self::MAX_DEPTH) {
-            trigger_error($property.self::INVALID_PROPERTY, E_USER_NOTICE);
-
             return null;
         }
 
