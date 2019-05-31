@@ -12,9 +12,9 @@ A PHP Client for the iLeads RealTag API ([Website](https://www.realtag.com/))
 ### Notes
 * If you don't already use an autoloader and don't require the classes manually, the RealTag PHP Client will attempt to use Composer's Autoloader. So, if you're not using this library via Composer, make sure you include both the Client class and the Helper Class manually (`require`, `require_once`).
 * You can request any attribute of the API response, realtag will lookup the requested property in all API Response Sections (ie- Property, EstimatedData, Forclosure, etc).
-* The client library will trigger a PHP `E_USER_NOTICE` if something isn't configured correctly. Or an invalid property attribute is requested.
+* The client library will trigger a PHP `E_USER_NOTICE` if something isn't configured correctly or an invalid property attribute is requested.
 * The PHP RealTag Client defaults to Production Mode `$devMode == false`. Make sure to enable `$devMode` if you don't want to hit the production service.
-* If you have any questions of comments, feel free to open a Github Issue, or submit a pull request with your proposed changes. Any/All Help is greatly appreciated! 😃 
+* If you have any questions or comments, feel free to open a Github Issue, or submit a pull request with your proposed changes. Any/All Help is greatly appreciated! 😃 
 
 ### Available Attributes
 
@@ -172,7 +172,7 @@ use westonwatson\realtag\RealTagHelper;
 
 class RealTagUsage
 {
-    const MY_API_TOKEN = 'aNUn3eP7ep26ix/wDFDcZUEuFO5jxGEaL8a4hUW8q5FzoyQ5iCHyzg==';
+    const MY_API_TOKEN = 'bqJNaoN98hNx/wDFDcZUEjkdsnKJN87Y8BBH8D8SKzoyQ5iCHyzg==';
 
     /**
      * @var bool
