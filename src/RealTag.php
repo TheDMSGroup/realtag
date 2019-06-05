@@ -2,9 +2,6 @@
 
 namespace westonwatson\realtag;
 
-use westonwatson\realtag\HttpRequest;
-use westonwatson\realtag\CurlRequest;
-
 /**
  * Class RealTag
  *
@@ -19,6 +16,10 @@ class RealTag
     const REQUIRED_POST_DATA     = ['FullName', 'AddressLine1', 'City', 'State', 'Zip'];
 
     const NON_REQUIRED_POST_DATA = ['ExternalID', 'AddressLine2'];
+
+    const BLANK_RESPONSE_ERROR   = 'Invalid RealTag API Response. This is most likely because of a Bad/Missing Token.';
+
+    const INVALID_RESPONSE_ERROR = 'The RealTag API Responded with Invalid JSON: ';
 
     /**
      * @var string
@@ -154,7 +155,17 @@ class RealTag
      */
     private function decodeResponse($response)
     {
-        return json_decode($response);
+        if (!$response) {
+            throw new \Exception(self::BLANK_RESPONSE_ERROR);
+        }
+
+        $object = json_decode($response);
+
+        if ($object === null) {
+            throw new \Exception(self::INVALID_RESPONSE_ERROR . $response);
+        }
+
+        return $object;
     }
 
     /**

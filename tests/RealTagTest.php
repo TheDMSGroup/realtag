@@ -8,6 +8,7 @@ use westonwatson\realtag\CurlRequest;
 use westonwatson\realtag\HttpRequest;
 use westonwatson\realtag\RealTag;
 use stdClass;
+use westonwatson\realtag\RealTagHelper;
 
 /**
  * Class RealTagTest
@@ -55,16 +56,15 @@ class RealTagTest extends TestCase
 
     public function testDecodeResponseAndSetEndpointAndSetHeaders()
     {
-        $testTokenString = self::TEST_TOKEN;
-        $testBaseUrl     = 'http://google.com';
-        $testEndpoint    = "{$testBaseUrl}?code={$testTokenString}";
-
-        $stub            = $this->createMock(CurlRequest::class);
+        $test_token_string = self::TEST_TOKEN;
+        $testBaseUrl       = 'http://google.com';
+        $test_endpoint     = "{$testBaseUrl}?code={$test_token_string}";
+        $stub              = $this->createMock(CurlRequest::class);
 
         $stub
             ->expects($this->any())
             ->method('setUrl')
-            ->with($testEndpoint);
+            ->with($test_endpoint);
 
         $stub
             ->expects($this->once())
@@ -76,11 +76,34 @@ class RealTagTest extends TestCase
             ->method('execute')
             ->willReturn($this->testResponse);
 
-        $realtag = new RealTag($testTokenString, true, $stub);
+        $realtag = new RealTag($test_token_string, true, $stub);
         $realtag->setEndpoint($testBaseUrl);
 
-        $mockedResponse = $realtag->call(self::GOOD_POST_DATA);
+        $mocked_response = $realtag->call(self::GOOD_POST_DATA);
 
-        $this->assertEquals($this->testDecodedResp, $mockedResponse);
+        $this->assertEquals($this->testDecodedResp, $mocked_response);
+    }
+
+    public function testBlankResponseException()
+    {
+        $test_token_string = self::TEST_TOKEN;
+        $stub              = $this->createMock(CurlRequest::class);
+        $realtag           = new RealTag($test_token_string, true, $stub);
+
+        $stub
+            ->expects($this->any())
+            ->method('execute')
+            ->willReturn('');
+
+        $this->expectException(\Exception::class);
+
+        $realtag->call(self::GOOD_POST_DATA);
+    }
+
+    public function testInvalidInput()
+    {
+        $realtag = new RealTag(self::TEST_TOKEN, true);
+        $this->expectException(\Exception::class);
+        $realtag->call([]);
     }
 }
