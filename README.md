@@ -1,4 +1,5 @@
-# realtag
+![RealTag](https://i.imgur.com/0VCpK2F.png)
+
 A PHP Client for the iLeads RealTag API ([Website](https://www.realtag.com/))
 
 ![Build Status](https://travis-ci.org/westonwatson/realtag.svg?branch=master)
