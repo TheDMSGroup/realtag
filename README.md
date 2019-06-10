@@ -16,7 +16,7 @@ Please read the Contribution Guide [here](https://github.com/westonwatson/realta
 
 ### Code of Conduct
 
-Reead our Code of Conduct [here](https://github.com/westonwatson/realtag/blob/master/CODE_OF_CONDUCT.md).
+Read our Code of Conduct [here](https://github.com/westonwatson/realtag/blob/master/CODE_OF_CONDUCT.md).
 
 ### Notes
 * If you don't already use an autoloader and don't require the classes manually, the RealTag PHP Client will attempt to use Composer's Autoloader. So, if you're not using this library via Composer, make sure you include both the Client class and the Helper Class manually (`require`, `require_once`).
