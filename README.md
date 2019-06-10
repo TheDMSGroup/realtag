@@ -10,6 +10,14 @@ A PHP Client for the iLeads RealTag API ([Website](https://www.realtag.com/))
 ![GitHub contributors](https://img.shields.io/github/contributors/westonwatson/realtag.svg)
 ![GitHub issues](https://img.shields.io/github/issues/westonwatson/realtag.svg)
 
+### Contributing
+
+Please read the Contribution Guide [here](https://github.com/westonwatson/realtag/blob/master/CONTRIBUTING.md) if you wish to help out. All Pull requests require at least 1 approval from a Project Owner. Approvals from other developers will help get the attention of project owners. This is a great way to help promote important and beneficial changes sooner.
+
+### Code of Conduct
+
+Reead our Code of Conduct [here](https://github.com/westonwatson/realtag/blob/master/CODE_OF_CONDUCT.md).
+
 ### Notes
 * If you don't already use an autoloader and don't require the classes manually, the RealTag PHP Client will attempt to use Composer's Autoloader. So, if you're not using this library via Composer, make sure you include both the Client class and the Helper Class manually (`require`, `require_once`).
 * You can request any attribute of the API response, realtag will lookup the requested property in all API Response Sections (ie- Property, EstimatedData, Forclosure, etc).
