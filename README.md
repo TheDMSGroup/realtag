@@ -237,4 +237,5 @@ $realtagUsage->showMortgageTerm();
 $realtagUsage->showRoomCount();
 ```
 
-
+##### Contributors:
+> [Weston Watson](http://github.com/westonwatson)
